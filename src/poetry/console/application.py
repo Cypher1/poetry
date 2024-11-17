@@ -365,6 +365,7 @@ class Application(BaseApplication):
                 description=(
                     "The working directory for the Poetry command (defaults to the"
                     " current working directory)."
+                    " The Poetry project will be selected automatically using this path"
                 ),
             )
         )
