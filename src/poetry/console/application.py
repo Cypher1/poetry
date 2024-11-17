@@ -122,10 +122,8 @@ class Application(BaseApplication):
             io=self._io,
             disable_plugins=self._disable_plugins,
             disable_cache=self._disable_cache,
+            project=self._project,
         )
-
-        if self._poetry.poetry_file != project_path / "pyproject.toml":
-            raise ValueError(f"Could not find a project in directory '{project_path}'. Did you intend to use '{self._poetry.poetry_file}' ?")
 
         return self._poetry
 
@@ -365,12 +363,30 @@ class Application(BaseApplication):
                 description=(
                     "The working directory for the Poetry command (defaults to the"
                     " current working directory)."
-                    " The Poetry project will be selected automatically using this path"
+                ),
+            )
+        )
+
+        definition.add_option(
+            Option(
+                "--project",
+                "-P",
+                flag=False,
+                description=(
+                    "The path to the Poetry pyproject.toml to use. If not specified,"
+                    " the Poetry project will be selected automatically using the current working directory"
                 ),
             )
         )
 
         return definition
+
+    @cached_property
+    def _project(self) -> Path:
+        if self._io and self._io.input.option("project"):
+            return Path(self._io.input.option("project")).absolute()
+        return self._directory
+
 
     @cached_property
     def _directory(self) -> Path:

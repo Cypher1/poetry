@@ -53,6 +53,7 @@ class Factory(BaseFactory):
         io: IO | None = None,
         disable_plugins: bool = False,
         disable_cache: bool = False,
+        project: Path | None = None,
     ) -> Poetry:
         if io is None:
             io = NullIO()
