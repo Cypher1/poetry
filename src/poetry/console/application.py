@@ -133,6 +133,9 @@ class Application(BaseApplication):
             disable_cache=self._disable_cache,
         )
 
+        if self._poetry.poetry_file != project_path / "pyproject.toml":
+            raise ValueError(f"Could not find a project in directory '{project_path}'. Did you intend to use '{self._poetry.poetry_file}' ?")
+
         return self._poetry
 
     @property
